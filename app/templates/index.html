@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <title>Juegos de mesa</title>
+</head>
+<body>
+    {% include 'partials/header.html' %}
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>JUEGOS DE <span class="highlight">MESA</span></h1>
+            <a href="/juegos"><button class="cta">Ver juegos</button></a>
+        </div>
+    </section>
+
+    {% include 'partials/footer.html' %}
+</body>
+</html>

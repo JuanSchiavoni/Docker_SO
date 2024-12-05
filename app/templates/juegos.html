@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/juegos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/juegos.js') }}"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <title>Lista de Juegos</title>
+</head>
+<body>
+    {% include 'partials/header.html' %}
+
+    <section class="section">
+        <div class="section-content">
+            <h1>Lista de Juegos de Mesa</h1>
+            <div class="actions-container">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Buscar por nombre o país" oninput="filterGames()">
+                    <button onclick="filterGames()">Buscar</button>
+                </div>
+                <button class="add-btn" onclick="openDialogCreate()">Agregar juego</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Jugadores (Min - Max)</th>
+                        <th>Edades (Min - Max)</th>
+                        <th>País de Origen</th>
+                        <th>Costo (USD)</th>
+                        <th class="action">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="games-table-body">
+                    {% for game in games %}
+                    <tr data-id="{{ game._id }}">
+                        <td>{{ game.gameId }}</td>
+                        <td>{{ game.name }}</td>
+                        <td>{{ game.players.min }} - {{ game.players.max }}</td>
+                        <td>{{ game.ageLimits.min }} - {{ game.ageLimits.max }}</td>
+                        <td>{{ game.originCountry }}</td>
+                        <td>${{ game.cost }}</td>
+                        <td class="buttons">
+                            <a onclick="openDialogEdit('{{ game._id }}')" class="button-action edit"><i class="fa-regular fa-pen-to-square fa-lg"></i></a>
+                            <a onclick="openDialogDelete('{{ game._id }}')" class="button-action delete"><i class="fa-solid fa-trash fa-lg"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- FONDO -->
+    <div id="overlay-edit" class="overlay" onclick="closeDialogEdit()"></div>
+    <div id="overlay-delete" class="overlay" onclick="closeDialogDelete()"></div>
+    <div id="overlay-create" class="overlay" onclick="closeDialogCreate()"></div>
+
+    {% include 'partials/createGame.html' %}
+
+    {% include 'partials/editGame.html' %}
+
+    {% include 'partials/deleteGame.html' %}
+
+    {% include 'partials/footer.html' %}
+
+    <div id="customToast" class="custom-toast"></div>
+
+</body>
+</html>
